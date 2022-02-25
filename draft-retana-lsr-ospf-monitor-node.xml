@@ -1,625 +1,436 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
-<!-- A set of on-line citation libraries are maintained on the xml2rfc web site.
-     The next line defines an entity named RFC2629, which contains the necessary XML
-     for the reference element, and is used much later in the file.  This XML contains an
-     anchor (also RFC2629) which can be used to cross-reference this item in the text.
-     You can also use local file names instead of a URI.  The environment variable
-     XML_LIBRARY provides a search path of directories to look at to locate a
-     relative path name for the file. There has to be one entity for each item to be
-     referenced. -->
-<!ENTITY RFC2234 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2234.xml">
-<!ENTITY RFC2629 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2629.xml">
-<!ENTITY RFC4234 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4234.xml">
-<!-- There is also a library of current Internet Draft citations.  It isn't a good idea to
-     actually use one for the template because it might have disappeared when you come to test
-     this template.  This is the form of the entity definition
-     &lt;!ENTITY I-D.mrose-writing-rfcs SYSTEM
-     "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mrose-writing-rfcs.xml">
-     corresponding to a draft filename draft-mrose-writing-rfcs-nn.txt. The citation will be
-     to the most recent draft in the sequence, and is updated roughly hourly on the web site.
-     For working group drafts, the same principle applies: file name starts draft-ietf-wgname-..
-     and entity file is reference.I-D.ietf-wgname-...  The corresponding entity name is
-     I-D.ietf-wgname-... (I-D.mrose-writing-rfcs for the other example).  Of course this doesn't
-     change when the draft version changes.
-     -->
-<!-- Fudge for XMLmind which doesn't have this built in -->
-<!ENTITY nbsp    "&#160;">
-]>
-
-<!-- Extra statement used by XSLT processors to control the output style. -->
+<?xml version='1.0' encoding='utf-8'?>
+<!-- This template is for creating an Internet Draft using xml2rfc,
+    which is available here: http://xml.resource.org. -->
+<!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
-
-
-<!-- Processing Instructions can be placed here but if you are editing
-     with XMLmind (and maybe other XML editors) they are better placed
-     after the rfc element start tag as shown below. -->
-
-<!-- Information about the document.
-     category values: std, bcp, info, exp, and historic
-     For Internet-Drafts, specify attribute "ipr".
-     (ipr values are: full3667, noModification3667, noDerivatives3667),
-     Also for Internet-Drafts, can specify values for
-     attributes "docName" and, if relevant, "iprExtract".  Note
-     that the value for iprExtract is the anchor attribute
-     value of a section (such as a MIB specification) that can be
-     extracted for separate publication, and is only
-     useful whenhe value of "ipr" is not "full3667". -->
-    <!-- TODO: verify which attributes are specified only
-               by the RFC editor.  It appears that attributes
-               "number", "obsoletes", "updates", and "seriesNo"
-               are specified by the RFC editor (and not by
-               the document author). -->
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs),
+    please see http://xml.resource.org/authoring/README.html. -->
 <rfc
-    category="info"
-    ipr="noModification3978"
-    iprExtract="codeExample"
-    docName="draft-todo-yourname-protocol-latest" >
-    <!-- Processing Instructions- PIs (for a complete list and description,
-          see file http://xml.resource.org/authoring/README.html and below... -->
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      category="info"
+      docName="draft-ietf-xml2rfc-template-06"
+      ipr="trust200902"
+      obsoletes=""
+      updates=""
+      submissionType="IETF"
+      xml:lang="en"
+      tocInclude="true"
+      tocDepth="4"
+      symRefs="true"
+      sortRefs="true"
+      version="3">
+  <!-- xml2rfc v2v3 conversion 2.38.1 -->
+  <!-- category values: std, bcp, info, exp, and historic
+    ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
+       or pre5378Trust200902
+    you can add the attributes updates="NNNN" and obsoletes="NNNN"
+    they will automatically be output with "(if approved)" -->
 
-    <!-- Some of the more generally applicable PIs that most I-Ds might want to use -->
+ <!-- ***** FRONT MATTER ***** -->
 
-    <!-- Try to enforce the ID-nits conventions and DTD validity -->
-    <?rfc strict="yes" ?>
-
-    <!-- Items used when reviewing the document -->
-    <?rfc comments="no" ?>  <!-- Controls display of <cref> elements -->
-    <?rfc inline="no" ?>    <!-- When no, put comments at end in comments section,
-                                 otherwise, put inline -->
-    <?rfc editing="no" ?>   <!-- When yes, insert editing marks: editing marks consist of a
-                                 string such as <29> printed in the blank line at the
-                                 beginning of each paragraph of text. -->
-
-    <!-- Create Table of Contents (ToC) and set some options for it.
-         Note the ToC may be omitted for very short documents,but idnits insists on a ToC
-         if the document has more than 15 pages. -->
-   <?rfc toc="yes"?>
-   <?rfc tocompact="yes"?> <!-- If "yes" eliminates blank lines before main section entries. -->
-   <?rfc tocdepth="3"?>    <!-- Sets the number of levels of sections/subsections... in ToC -->
-
-    <!-- Choose the options for the references.
-         Some like symbolic tags in the references (and citations) and others prefer
-         numbers. The RFC Editor always uses symbolic tags.
-         The tags used are the anchor attributes of the references. -->
-    <?rfc symrefs="no"?>
-    <?rfc sortrefs="yes" ?> <!-- If "yes", causes the references to be sorted in order of tags.
-                                 This doesn't have any effect unless symrefs is "yes" also. -->
-
-    <!-- These two save paper: Just setting compact to "yes" makes savings by not starting each
-         main section on a new page but does not omit the blank lines between list items.
-         If subcompact is also "yes" the blank lines between list items are also omitted. -->
-    <?rfc compact="yes" ?>
-    <?rfc subcompact="no" ?>
-    <!-- end of list of popular I-D processing instructions -->
-
-    <!-- ***** FRONT MATTER ***** -->
-<front>
+ <front>
     <!-- The abbreviated title is used in the page header - it is only necessary if the
-         full title is longer than 42 characters -->
-    <title abbrev="Abbreviated-Title">Full Title</title>
+        full title is longer than 39 characters -->
 
+   <title abbrev="Abbreviated Title">Put Your Internet Draft Title
+   Here</title>
+    <seriesInfo name="Internet-Draft" value="draft-ietf-xml2rfc-template-06"/>
     <!-- add 'role="editor"' below for the editors if appropriate -->
-    <author
-        fullname="Pekka Savola"
-        initials="P."
-        surname="Savola">
 
-        <!-- abbrev not needed but can be used for the header
-             if the full organization name is too long -->
-        <organization abbrev="Abbreviated OrgName">Full Organization name</organization>
-        <address>
-            <postal>
-                <!-- I've omitted my street address here -->
-                <street/>
-                <city>Espoo</city>
-                <!--
-                    The IETF seems to meet once a year in Minneapolis,
-                    so that's practically my US address. If so, I would
-                    add the following elements:
-                <region>MN</region>
-                <code>55403</code>
-                However, if I lived in France, the <code> comes before the city.  xml2rfc
-                preserves the order of <city>, <region>, <code> and <country> elements in
-                output so that they can reflect any possible the national scheme
-                -->
-                <!-- The country element is supposed to contain an ISO3166 two letter country
-                     code. -->
-                <country>FI</country>
-            </postal>
-        <email>psavola@funet.fi</email>
-        <!--
-            If I had a phone, fax machine, and a URI, I could add the following:
-                <phone>+1-408-555-1234</phone>
-                <facsimile>+1-555-911-9111</facsimile>
-                <uri>http://www.example.com/</uri>
-            -->
-        </address>
-    </author>
+   <!-- Another author who claims to be an editor -->
 
-    <!-- Another author who claims to be an editor -->
-    <author fullname="Elwyn Davies"
-            initials="E.B."
-            surname="Davies"
-            role="editor">
+   <author fullname="Elwyn Davies" initials="E.B." role="editor" surname="Davies">
       <organization>Folly Consulting</organization>
-
       <address>
         <postal>
-          <street></street>
+          <street/>
+          <!-- Reorder these if your country does things differently -->
 
-          <city>Soham</city>
-
-          <region></region>
-
-          <code></code>
-
+         <city>Soham</city>
+          <region/>
+          <code/>
           <country>UK</country>
         </postal>
-
         <phone>+44 7889 488 335</phone>
-
-        <facsimile></facsimile>
-
         <email>elwynd@dial.pipex.com</email>
-
-        <uri></uri>
-      </address>
+        <!-- uri and facsimile elements may also be added -->
+     </address>
     </author>
+    <date year="2010"/>
+    <!-- If the month and year are both specified and are the current ones, xml2rfc will fill
+        in the current day for you. If only the current year is specified, xml2rfc will fill
+	 in the current day and month for you. If the year is not the current one, it is
+	 necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the
+	 purpose of calculating the expiry date).  With drafts it is normally sufficient to
+	 specify just the year. -->
 
-    <date year="2006" month="March"/> <!-- month="March" is no longer necessary
-                                           note also, day="30" is optional -->
-    <!-- WARNING: If the month and year are the current ones, xml2rfc will fill in the day for
-         you. If only the year is specified, xml2rfc will fill in the current day and month
-         irrespective of the day.  This silliness should be fixed in v1.31. -->
+   <!-- Meta-data Declarations -->
 
-    <!-- Meta-data Declarations -->
-
-    <!-- Notice the use of &amp; as an escape for & which would otherwise
-         start an entity declaration, whereas we want a literal &. -->
-    <area>Operations &amp; Management</area>
-
-    <!-- WG name at the upperleft corner of the doc,
-         IETF fine for individual submissions.  You can also
-         omit this element in which case in defaults to "Network Working Group" -
-         a hangover from the ancient history of the IETF! -->
+   <area>General</area>
     <workgroup>Internet Engineering Task Force</workgroup>
+    <!-- WG name at the upperleft corner of the doc,
+        IETF is fine for individual submissions.
+	 If this element is not present, the default is "Network Working Group",
+        which is used by the RFC Editor as a nod to the history of the IETF. -->
 
-    <!-- The DTD allows multiple area and workgroup elements but only the first one has any
-         effect on output.  -->
-    <!-- You can add <keyword/> elements here.  They will be incorporated into HTML output
-         files in a meta tag but they have no effect on text or nroff output. -->
+   <keyword>template</keyword>
+    <!-- Keywords will be incorporated into HTML output
+        files in a meta tag but they have no effect on text or nroff
+        output. If you submit your draft to the RFC Editor, the
+        keywords will be used for the search engine. -->
 
-
-    <abstract>
-        <t>This is an abstract abstract.  I-Ds and RFCs MUST have an abstract.
-        Remember, don't add references here. So we would just say the 'language' used to write
-        this document is defined in RFC 2629.</t>
+   <abstract>
+      <t>Insert an abstract: MANDATORY. This template is for creating an
+     Internet Draft.</t>
     </abstract>
-
-    <note title="Foreword">
-        <t>This "forward" section is an unnumbered section that is not included
-        in the table of contents.  It is primarily used for the IESG to
-        make comments about the document.  It can also be used for comments about the status
-        of the document and sometimes is used for the RFC2119 requirements language statement.
-        </t>
-        <t>In this example, it is used as a handy place to specify URLs to
-        documents and tools to author RFC-style documents using XML.</t>
-        <t>RFC2629 is the original published document on authoring RFC-style
-        documents in XML
-        (<eref target="http://xml.resource.org/public/rfc/html/rfc2629.html"/>).
-        It is being updated (and called RFC2629(bis) and is
-        <eref target="http://xml.resource.org/authoring/draft-mrose-writing-rfcs.html"/>.
-        The tool to convert XML documents to RFC-style text (and HTML) files
-        is described in document <eref target="http://xml.resource.org/authoring/README.html"/>.
-        </t>
-        <t>Please also remember to check out
-        <eref target="http://www.ietf.org/ID-Checklist.html"/> for issues to note when writing
-        drafts and the automated tools documented at
-        <eref target="http://tools.ietf.org/tools/"/>.</t>
-        <t>Remember, you don't need to have any other tools than a 'notepad'
-        or your favorite editor to write xml2rfc drafts.  You can use the web
-        interface at <eref target="http://xml.resource.org"/> for processing.  The benefit of
-        using XML editors is mostly catching those missing tags which the processor will
-        warn you about, but you don't need to worry about the editors when getting
-        started.</t>
-        <t>This template is not meant to be a conclusive list of everything,
-        but summarize the often-needed basic features to get one started.</t>
-    </note>
-
-
-    <note title="Requirements Language">
-        <t>The key words &quot;MUST&quot;, &quot;MUST NOT&quot;,
-        &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;,
-        &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;,
-        &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this document are to be
-        interpreted as described in <xref target="RFC2119">RFC 2119</xref>.
-        </t>
-    </note>
-
-</front>
-
-<middle>
-    <section title="Introduction">
-        <t>Now you can have a bit lengthier text here.</t>
-        <t>The definition of the XML Data Type Description used to 'describe' an RFC or Internet
-        Draft can be found in a document which we can refer to as
-        <xref target="RFC2629">RFC 2629</xref>.</t>
-        <t>Let's refer to a couple more documents, just for practice:
-        <xref target="DOMINATION"/> and
-        <xref target="RFC2661">L2TP</xref>. For text generation, these look equivalent,
-        but the latter looks a bit neater in the HTML representation.</t>
-        <t>You might also add a note about the usage of RFC2119 keywords here..</t>
-        <t>You can cross-reference the sections of the document in a stable manner either by
-        <xref target="sect2">section number</xref> - the usual way - or by section title
-        (&quot;<xref target="sect2" format="title"/>&quot;): if the organization of the
-        document changes the reference will still be to the correct section.  However
-        &quot;sect2&quot; is not a very good 'anchor' name because there is no guarantee that
-        this section will remain as Section 2 for ever. It is best to use some sort of mnemonic
-        for the contents of the section, which also makes it easier to remember the anchor when
-        creating a cross-reference many pages later. A final note about anchors: anchors are
-        XML 'tokens' and must therefore consist only of letters, numbers, underscores, hyphens
-        and periods, starting with either a letter or underscore.  Anchors with spaces or other
-        punctuation characters are not allowed.
-        </t>
+  </front>
+  <middle>
+    <section numbered="true" toc="default">
+      <name>Introduction</name>
+      <t>The original specification of xml2rfc format is in <xref target="RFC2629" format="default">RFC&nbsp;2629</xref>.</t>
+      <section numbered="true" toc="default">
+        <name>Requirements Language</name>
+        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+       document are to be interpreted as described in <xref target="RFC2119" format="default">RFC 2119</xref>.</t>
+      </section>
     </section>
-
-    <section anchor="sect2" title="An Example Section">
-        <t>Technical documents often use lists.  There are multiple list styles:
-        'empty', 'symbols', 'letters', 'numbers', 'hanging', 'format', etc.</t>
-        <t>
-        A more complicated list structure can be found in <xref target="more_lists"/>.
-            <list style="symbols">
-                <t>First bullet</t>
-                <t>Second bullet</t>
-            </list>
-        You can write text here as well - the difference, as compared with putting it in the next
-        &lt;t&gt; element, is that there will not be a blank line between the last list item
-        and this text if the processing instructions compact and subcompact are both set to
-        "yes".  Otherwise list items and the text before and after will be separated by blank
-        lines.
-        </t>
-        <t>One can draw fancy diagrams as well; remember to ensure that they
-        don't exceed 69 chars/line until v1.31 comes along.  v1.31 should give you the ability
-        to start figures at the left margin getting figures up to 72 characters wide.</t>
-	<t>Setting the alignment for the whole figure to "center" instead of the default "left"
-        causes all the components to be centred unless it is overridden just for the "artwork",
-        as it is here.</t>
-        <figure anchor="xml_happy" align="center">
-            <preamble>Figures can have some text before the artwork should it be needed.  Note
-            that figures should NOT be inside &lt;t&gt; elements.  Originally they were allowed
-            to be but you will now get a warning that this is deprecated, and the figure should
-            be a 'child' of the section element.</preamble>
-            <artwork align="left">
-<![CDATA[
+    <section anchor="simple_list" numbered="true" toc="default">
+      <name>Simple List</name>
+      <t>List styles: 'empty', 'symbols', 'letters', 'numbers', 'hanging',
+     'format'.</t>
+      <ul spacing="normal">
+        <li>First bullet</li>
+        <li>Second bullet</li>
+      </ul>
+      <t> You can write text here as well.</t>
+    </section>
+    <section numbered="true" toc="default">
+      <name>Figures</name>
+      <t>Figures should not exceed 69 characters wide to allow for the indent
+     of sections.</t>
+      <t>Preamble text - can be omitted or empty.</t>
+      <figure anchor="xml_happy">
+        <artwork align="left" name="" type="" alt=""><![CDATA[
 +-----------------------+
 | Use XML, be Happy :-) |
 |_______________________|
-]]>
-            </artwork>
-            <postamble>Figures can also have text after the artwork and before the caption (if
-            any).  This figure has an anchor.  This means that the figure will get a caption...
-            </postamble>
-        </figure>
-        <t>Note that including a CDATA means you don't need to escape most special characters
-        you might otherwise have to.  Figures may also have a title attribute but it won't be
-        displayed unless there is also an anchor, and it will be somewhat disconcerting for
-        readers if some figures have numbers and others don't..</t>
-
-        <section title="A Subsection">
-            <t>There can be a lot of subsections (and sub-subsections).  By default 3 levels of
-            nesting show in table of contents but that can be adjusted with the
-            value of the "tocdepth" processing instruction.</t>
-        </section>
-
-        <section title="Tables">
-            <t>Another item that you might need is a table.  The XML for tables is very similar
-            to that for figures:
-            </t>
-            <texttable anchor='table_example' title="A Very Simple Table">
-                <preamble>Tables use ttcol to define column headers and widths.
-                Every cell then has a &quot;c&quot; element for its content.</preamble>
-                <ttcol align='center'>ttcol #1</ttcol>
-                <ttcol align='center'>ttcol #2</ttcol>
-                <c>c #1</c>
-                <c>c #2</c>
-                <c>c #3</c>
-                <c>c #4</c>
-                <c>c #5</c>
-                <c>c #6</c>
-                <postamble>which is a very simple example.</postamble>
-            </texttable>
-        </section>
+           ]]></artwork>
+      </figure>
+      <t>Cross-references allowed in pre- and postamble. <xref target="min_ref" format="default"/>.</t>
+      <t>The CDATA means you don't need to escape meta-characters (especially
+     &lt;&nbsp;(&amp;lt;) and &amp;&nbsp;(&amp;amp;)) but is not essential.
+     Figures may also have a title attribute but it won't be displayed unless
+     there is also an anchor. White space, both horizontal and vertical, is
+     significant in figures even if you don't use CDATA.</t>
     </section>
+    <!-- This PI places the pagebreak correctly (before the section title) in the text output. -->
 
-    <section anchor="more_lists" title="More About Lists">
-        <t>One useful style of lists uses 'hanging labels' where the list item is indented by
-        the amount of the hangIndent with the hanging label displayed to the left of the first
-        line of the item.  This example shows how &lt;vspace&gt; can be used to deal with the
-        odd label longer than the indent you really want to use (This is only really relevant
-        to text mode output because the labels are always on separate lines in HTML output):
-            <list hangIndent="8" style="hanging">
-                <t hangText="short">With a label shorter than the hangIndent there
-                is white space after the label and before the item text starts
-                although it starts on the same line - clearly separating the label
-                from the column of items.</t>
-                <t hangText="fantastically long label">With a label longer than the hangIndent
-                the label runs on into the text item and the separation is lost.</t>
-                <t hangText="vspace_trick"><vspace blankLines="0" />Inserting a
-                &lt;vspace /&gt; at the start of the item forces the new item to
-                start on a new line emphasizing the separation again.</t>
-            </list>
-        </t>
-        <!-- It would be nice to see the next piece (12 lines) all on one page. -->
-	<?rfc needLines="12" ?>
-        <t>List items in xml2rfc are made up of one &lt;t&gt; element. In some cases it would be
-        nice to have more than one paragraph in a list item.  This can be achieved with
-        &lt;vspace&gt; also:
-            <list style="letters">
-                <t>First, a short item that needs only one paragraph.</t>
-                <t>Second, a longer list item.  We have more to say, and we want a separate
-                paragraph.<vspace blankLines="1"/>
-                And here we can have it, and go on to our heart's content.</t>
-            </list>
-        </t>
-        <t> If you just want an indented paragraph (say for a quotation) use the "empty" style:
-            <list style="empty" hangIndent="10">
-                <t>The quick, brown fox jumped over the lazy dog and lived to fool many another
-                hunter in the great wood in the west.</t>
-            </list>
-        </t>
-        <section title="Numbering Lists Across Lists and Sections">
-            <t>Sometimes it is useful to be able to number items continuously although they are
-            in separate &lt;list&gt; elements, maybe in separate sections.  This can be achieved
-            using the "format" style and a "counter" variable.
-            </t>
-            <t>First list with (say) requirements items:
-                <list style="format R%d" counter="reqs" hangIndent="4">
-                    <t>Requirement #1</t>
-                    <t>Requirement #2</t>
-                    <t>Requirement #3</t>
-                </list>
-            It is wise to specify the indent explicitly so that all the items line up nicely.
-            Otherwise the indent in each list is determined by the maximum length of the labels
-            in that list, even if later lists have longer labels.</t>
-            <t>A little later there is a second list with requirements items:
-                <list style="format R%d" counter="reqs" hangIndent="4">
-                    <t>Requirement #4</t>
-                    <t>Requirement #5</t>
-                    <t>Requirement #6</t>
-                </list>
-            before this section finishes.</t>
-        </section>
-        <section title="Where the List Numbering Continues">
-            <t>But in the next section the list of requirements continues:</t>
-            <t>Third list with requirements items:
-                <list style="format R%d" counter="reqs" hangIndent="4">
-                    <t>Requirement #7</t>
-                    <t>Requirement #8</t>
-                    <t>Requirement #9</t>
-                    <t>Requirement #10</t>
-                </list>
-            And finally that is all about the requirements.</t>
-        </section>
+   <section numbered="true" toc="default">
+      <name>Subsections and Tables</name>
+      <section numbered="true" toc="default">
+        <name>A Subsection</name>
+        <t>By default 3 levels of nesting show in table of contents but that
+       can be adjusted with the value of the "tocdepth" processing
+       instruction.</t>
+      </section>
+      <section numbered="true" toc="default">
+        <name>Tables</name>
+        <t>.. are very similar to figures:</t>
+        <t>Tables use ttcol to define column headers and widths.
+         Every cell then has a "c" element for its content.</t>
+        <table anchor="table_example" align="center">
+          <name>A Very Simple Table</name>
+          <thead>
+            <tr>
+              <th align="center">ttcol #1</th>
+              <th align="center">ttcol #2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td align="center">c #1</td>
+              <td align="center">c #2</td>
+            </tr>
+            <tr>
+              <td align="center">c #3</td>
+              <td align="center">c #4</td>
+            </tr>
+            <tr>
+              <td align="center">c #5</td>
+              <td align="center">c #6</td>
+            </tr>
+          </tbody>
+        </table>
+        <t>which is a very simple example.</t>
+      </section>
     </section>
+    <section anchor="nested_lists" numbered="true" toc="default">
+      <name>More about Lists</name>
+      <t>Lists with 'hanging labels': the list item is indented the amount of
+     the hangIndent: </t>
+      <dl newline="true" spacing="normal" indent="8">
+        <dt>short</dt>
+        <dd>With a label shorter than the hangIndent.</dd>
+        <dt>fantastically long label</dt>
+        <dd>With a label longer than the
+         hangIndent.</dd>
+        <dt>vspace_trick</dt>
+        <dd>Forces the new
+         item to start on a new line.</dd>
+      </dl>
+      <!-- It would be nice to see the next piece (12 lines) all on one page. -->
 
-    <section title="Using Typed Artwork">
-        <t>The <spanx style='verb'>artwork</spanx> element from RFC&nbsp;2629 supports an
-        optional <spanx style='verb'>type</spanx> attribute. While most possible values are
-        just ignored, including the special case where the attribute is unspecified or just
-        empty, some values are recognized. In particular,
-        <spanx style='verb'>type='abnf'</spanx> can be used if the
-        <spanx style='verb'>artwork</spanx> contains an Augmented Backus-Naur Form (ABNF)
-        syntax specification&nbsp;<xref target='RFC4234' />. As a special extension in its
-        <spanx style='emph'>behavior</spanx>, <spanx style='strong'>xml2rfc</spanx> will
-        attempt to validate the syntax and colorize the HTML output of ABNF, since it is so
-        widely used in RFCs. It does this colorizing by relying on the full parsing it does
-        right before, not on a quick and partial (e.g., line-by-line) pattern-based hack.
-        ABNF is the only artwork type to benefit from this kind of internal support at this
-        time. If the <spanx style='verb'>strict</spanx> rfc-PI directive is activated,
-        invalid ABNF content will cause <spanx style='strong'>xml2rfc</spanx> to abort with an
-        error message. Omitting the <spanx style='verb'>type</spanx> attribute altogether
-        is the obvious way to avoid having this validation and colorizing performed.</t>
-
-        <figure align='left'>
-            <preamble>For example (to be viewed in HTML):</preamble>
-            <artwork align='center' type='abnf'><![CDATA[
-char-val       =  DQUOTE *(%x20-21 / %x23-7E) DQUOTE
-                       ; quoted string of SP and VCHAR
-                          without DQUOTE
-num-val        =  "%" (bin-val / dec-val / hex-val)
-bin-val        =  "b" 1*BIT
-                  [ 1*("." 1*BIT) / ("-" 1*BIT) ]
-                       ; series of concatenated bit values
-                       ; or single ONEOF range
-dec-val        =  "d" 1*DIGIT
-                  [ 1*("." 1*DIGIT) / ("-" 1*DIGIT) ]
-hex-val        =  "x" 1*HEXDIG
-                  [ 1*("." 1*HEXDIG) / ("-" 1*HEXDIG) ]
-prose-val      =  "<" *(%x20-3D / %x3F-7E) ">"
-                       ; bracketed string of SP and VCHAR
-                          without angles
-                       ; prose description, to be used as
-                          last resort
-]]>
-            </artwork>
-            <postamble>This is from the original RFC on ABNF&nbsp;<xref target='RFC2234' />,
-            with its minor mistakes in manually folded comment lines purposely left intact,
-            for illustration. Since the result is still valid ABNF (but incorrect with respect
-            to what was intended), this showcases how colorizing might give a human author
-            (or editor or reader) a better chance to spot the three mistakes (and correct them,
-            e.g., with extra semicolons, as has been done in a more recent
-            version&nbsp;<xref target='RFC4234' /> of the ABNF specification). Note that it is
-            the white space characters at the beginning of the subsequent lines (including the
-            commented ones) that conspire to extend the reach of those rules across several
-            lines.</postamble>
-        </figure>
+     <t>Simulating more than one paragraph in a list item using
+     &lt;vspace&gt;: </t>
+      <ol spacing="normal" type="a">
+        <li>First, a short item.</li>
+        <li>
+          <t>Second, a longer list item.</t>
+          <t> And
+         something that looks like a separate pararaph..</t>
+        </li>
+      </ol>
+      <t>Simple indented paragraph using the "empty" style: </t>
+      <ul empty="true" spacing="normal">
+        <li>The quick, brown fox jumped over the lazy dog and lived to fool
+         many another hunter in the great wood in the west.</li>
+      </ul>
+      <section numbered="true" toc="default">
+        <name>Numbering Lists across Lists and Sections</name>
+        <t>Numbering items continuously although they are in separate
+       &lt;list&gt; elements, maybe in separate sections using the "format"
+       style and a "counter" variable.</t>
+        <t>First list: </t>
+        <ol group="reqs" spacing="normal" type="R%d">
+          <li>#1</li>
+          <li>#2</li>
+          <li>#3</li>
+        </ol>
+        <t> Specify the indent explicitly so that all the items line up
+       nicely.</t>
+        <t>Second list: </t>
+        <ol group="reqs" spacing="normal" type="R%d">
+          <li>#4</li>
+          <li>#5</li>
+          <li>#6</li>
+        </ol>
+      </section>
+      <section numbered="true" toc="default">
+        <name>Where the List Numbering Continues</name>
+        <t>List continues here.</t>
+        <t>Third list: </t>
+        <ol group="reqs" spacing="normal" type="R%d">
+          <li>#7</li>
+          <li>#8</li>
+          <li>#9</li>
+          <li>#10</li>
+        </ol>
+        <t> The end of the list.</t>
+      </section>
     </section>
+    <section anchor="codeExample" numbered="true" toc="default">
+      <name>Example of Code or MIB Module To Be Extracted</name>
+      <t>The &lt;artwork&gt; element has a number of extra attributes
+       that can be used to substitute a more aesthetically pleasing rendition
+       into HTML output while continuing to use the ASCII art version in the
+       text and nroff outputs (see the xml2rfc README for details). It also
+       has a "type" attribute. This is currently ignored except in the case
+       'type="abnf"'. In this case the "artwork" is expected to contain a
+       piece of valid Augmented Backus-Naur Format (ABNF) grammar. This will
+       be syntax checked by xml2rfc and any errors will cause a fatal error
+       if the "strict" processing instruction is set to "yes". The ABNF will
+       also be colorized in HTML output to highlight the syntactic
+       components. Checking of additional "types" may be provided in future
+       versions of xml2rfc.</t>
+      <artwork name="" type="" align="left" alt=""><![CDATA[
 
-    <section title="Decrypting XML2RFC Parsing errors">
-        <t>The most common form of xml2rfc parsing errors are those where a
-        closing tag has been expected to be present before a new kind of tag is
-        specified.  In the example below, Introduction section's last paragraph was
-        missing the closing t-element.  The rest of the error messages can be rather
-        easily understood as well by reading it carefully and examining the context.
-        The reason is typically a missing tag somewhere.</t>
-        <figure>
-            <artwork>
-<![CDATA[
-======8<=========
-end tag "section" does not match open element "t" around line 65
-Context:
-    <rfc ipr="full3667" category="info"
-         docName="draft-ietf-template-edu-full-00.txt"
-         updates="1,2"
-         obsoletes="3">
-    <middle>
-    <section title="Introduction">
-    <t>
-=======8<========
-]]>
-            </artwork>
-        </figure>
-    </section>
-    <section title="Example of code or MIB module to be extracted"
-             anchor="codeExample">
-        <figure>
-            <artwork>
-<![CDATA[
 /**** an example C program */
+
 #include <stdio.h>
+
 void
 main(int argc, char *argv[])
 {
-    int i;
-    printf("program arguments are:\n");
-    for (i = 0; i < argc; i++) {
-        printf("%d: \"%s\"\n", i, argv[i]);
-    }
-    exit(0);
+   int i;
+
+   printf("program arguments are:\n");
+   for (i = 0; i < argc; i++) {
+       printf("%d: \"%s\"\n", i, argv[i]);
+   }
+
+   exit(0);
 } /* main */
+
 /* end of file */
-]]>
-            </artwork>
-        </figure>
-    </section>
-    <section anchor="Acknowledgements" title="Acknowledgements">
-        <t>Remember, it's important to acknowledge people who have
-        contributed to the work.</t>
-        <t>This template was extended from an initial version written by Pekka Savola and
-        contributed by him to the xml2rfc project.</t>
-    </section>
 
-<!-- Possibly a 'Contributors' section ... -->
-
-    <section anchor="IANA" title="IANA Considerations">
-        <t>This memo includes no request to IANA.</t>
-        <t>(It's good - indeed pretty much mandatory now - to have an explicit note because
-        otherwise IANA wastes cycles trying to figure out if something is needed..)</t>
+           ]]></artwork>
     </section>
-
-    <section anchor="Security" title="Security Considerations">
-        <t>Remember to consider security from the start.. and all drafts are required to have
-        a security considerations section before they will pass the IESG.
-        </t>
+    <section anchor="Acknowledgements" numbered="true" toc="default">
+      <name>Acknowledgements</name>
+      <t>This template was derived from an initial version written by Pekka
+     Savola and contributed by him to the xml2rfc project.</t>
+      <t>This document is part of a plan to make xml2rfc indispensable <xref target="DOMINATION" format="default"/>.</t>
     </section>
-</middle>
+    <!-- Possibly a 'Contributors' section ... -->
 
-<!--  *****BACK MATTER ***** -->
-<back>
-    <!-- References split to informative and normative -->
-    <references title="Normative References">
-        <reference anchor="RFC2661">
-            <!-- the following is the minimum to make xml2rfc happy -->
-            <front>
-                <title>RFC2661</title>
-                <author initials="authInitials" surname="authSurName">
-                    <organization/>
-                </author>
-                <date year="year" />
-            </front>
+   <section anchor="IANA" numbered="true" toc="default">
+      <name>IANA Considerations</name>
+      <t>This memo includes no request to IANA.</t>
+      <t>All drafts are required to have an IANA considerations section (see
+     <xref target="RFC5226" format="default">Guidelines for Writing an IANA Considerations Section in RFCs</xref> for a guide). If the draft does not require IANA to do
+     anything, the section contains an explicit statement that this is the
+     case (as above). If there are no requirements for IANA, the section will
+     be removed during conversion into an RFC by the RFC Editor.</t>
+    </section>
+    <section anchor="Security" numbered="true" toc="default">
+      <name>Security Considerations</name>
+      <t>All drafts are required to have a security considerations section.
+     See <xref target="RFC3552" format="default">RFC 3552</xref> for a guide.</t>
+    </section>
+  </middle>
+  <!--  *****BACK MATTER ***** -->
+
+ <back>
+    <!-- References split into informative and normative -->
+
+   <!-- There are 2 ways to insert reference entries from the citation libraries:
+    1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+    2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+       (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+
+    Both are cited textually in the same manner: by using xref elements.
+    If you use the PI option, xml2rfc will, by default, try to find included files in the same
+    directory as the including file. You can also define the XML_LIBRARY environment variable
+    with a value containing a set of directories to search.  These can be either in the local
+    filing system or remote ones accessed by http (http://domain/dir/... ).-->
+
+   <references>
+      <name>References</name>
+      <references>
+        <name>Normative References</name>
+        <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+     <reference anchor="RFC2119" target="https://www.rfc-editor.org/info/rfc2119" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+          <front>
+            <title>Key words for use in RFCs to Indicate Requirement Levels</title>
+            <seriesInfo name="DOI" value="10.17487/RFC2119"/>
+            <seriesInfo name="RFC" value="2119"/>
+            <seriesInfo name="BCP" value="14"/>
+            <author initials="S." surname="Bradner" fullname="S. Bradner">
+              <organization/>
+            </author>
+            <date year="1997" month="March"/>
+            <abstract>
+              <t>In many standards track documents several words are used to signify the requirements in the specification.  These words are often capitalized. This document defines these words as they should be interpreted in IETF documents.  This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.</t>
+            </abstract>
+          </front>
         </reference>
+        <reference anchor="min_ref">
+          <!-- the following is the minimum to make xml2rfc happy -->
 
-        <!-- A *really* full, totally OTT reference - Note, the "target" attribute of the
-	     "reference": if you want a URI printed in the reference, this is where it goes. -->
-        <reference anchor='RFC2119'
-                   target='http://xml.resource.org/public/rfc/html/rfc2119.html'>
-            <front>
-                <title abbrev='RFC Key Words'>Key words for use in RFCs to Indicate Requirement
-                Levels</title>
-                <author initials='S.' surname='Bradner' fullname='Scott Bradner'>
-                    <organization>Harvard University</organization>
-                    <address>
-                        <postal>
-                            <street>1350 Mass. Ave.</street>
-                            <street>Cambridge</street>
-                            <street>MA 02138</street>
-                        </postal>
-                        <phone>- +1 617 495 3864</phone>
-                        <email>sob@harvard.edu</email>
-                    </address>
-                </author>
-                <date year='1997' month='March' />
-                <area>General</area>
-                <keyword>keyword</keyword>
-                <abstract>
-                    <t>In many standards track documents several words are used to signify
-                    the requirements in the specification.  These words are often
-                    capitalized.  This document defines these words as they should be
-                    interpreted in IETF documents.  Authors who follow these guidelines
-                    should incorporate this phrase near the beginning of their document:
-
-                        <list>
-                            <t>
-                            The key words &quot;MUST&quot;, &quot;MUST NOT&quot;,
-                            &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;,
-                            &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;,
-                            &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this document are to be
-                            interpreted as described in RFC 2119.</t>
-                        </list>
-                    </t>
-                    <t>
-                    Note that the force of these words is modified by the requirement level of
-                    the document in which they are used.</t>
-                </abstract>
-            </front>
-
-            <seriesInfo name='BCP' value='14' />
-            <seriesInfo name='RFC' value='2119' />
-            <format type='TXT' octets='4723' target='ftp://ftp.isi.edu/in-notes/rfc2119.txt' />
-            <format type='HTML' octets='14486'
-                    target='http://xml.resource.org/public/rfc/html/rfc2119.html' />
-            <format type='XML' octets='5661'
-                    target='http://xml.resource.org/public/rfc/xml/rfc2119.xml' />
+       <front>
+            <title>Minimal Reference</title>
+            <author initials="authInitials" surname="authSurName">
+              <organization/>
+            </author>
+            <date year="2006"/>
+          </front>
         </reference>
+      </references>
+      <references>
+        <name>Informative References</name>
+        <!-- Here we use entities that we defined at the beginning. -->
 
-        <!-- Right back at the beginning we defined an entity which (we asserted) would contain
-             XML needed for a reference... this is where we use it. -->
-        &RFC2629;
+     <reference anchor="RFC2629" target="https://www.rfc-editor.org/info/rfc2629" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2629.xml">
+          <front>
+            <title>Writing I-Ds and RFCs using XML</title>
+            <seriesInfo name="DOI" value="10.17487/RFC2629"/>
+            <seriesInfo name="RFC" value="2629"/>
+            <author initials="M." surname="Rose" fullname="M. Rose">
+              <organization/>
+            </author>
+            <date year="1999" month="June"/>
+            <abstract>
+              <t>This memo presents a technique for using XML (Extensible Markup Language) as a source format for documents in the Internet-Drafts (I-Ds) and Request for Comments (RFC) series.  This memo provides information for the Internet community.</t>
+            </abstract>
+          </front>
+        </reference>
+        <reference anchor="RFC3552" target="https://www.rfc-editor.org/info/rfc3552" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3552.xml">
+          <front>
+            <title>Guidelines for Writing RFC Text on Security Considerations</title>
+            <seriesInfo name="DOI" value="10.17487/RFC3552"/>
+            <seriesInfo name="RFC" value="3552"/>
+            <seriesInfo name="BCP" value="72"/>
+            <author initials="E." surname="Rescorla" fullname="E. Rescorla">
+              <organization/>
+            </author>
+            <author initials="B." surname="Korver" fullname="B. Korver">
+              <organization/>
+            </author>
+            <date year="2003" month="July"/>
+            <abstract>
+              <t>All RFCs are required to have a Security Considerations section. Historically, such sections have been relatively weak.  This document provides guidelines to RFC authors on how to write a good Security Considerations section.   This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.</t>
+            </abstract>
+          </front>
+        </reference>
+        <reference anchor="RFC5226" target="https://www.rfc-editor.org/info/rfc5226" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
+          <front>
+            <title>Guidelines for Writing an IANA Considerations Section in RFCs</title>
+            <seriesInfo name="DOI" value="10.17487/RFC5226"/>
+            <seriesInfo name="RFC" value="5226"/>
+            <author initials="T." surname="Narten" fullname="T. Narten">
+              <organization/>
+            </author>
+            <author initials="H." surname="Alvestrand" fullname="H. Alvestrand">
+              <organization/>
+            </author>
+            <date year="2008" month="May"/>
+            <abstract>
+              <t>Many protocols make use of identifiers consisting of constants and other well-known values.  Even after a protocol has been defined and deployment has begun, new values may need to be assigned (e.g., for a new option type in DHCP, or a new encryption or authentication transform for IPsec).  To ensure that such quantities have consistent values and interpretations across all implementations, their assignment must be administered by a central authority.  For IETF protocols, that role is provided by the Internet Assigned Numbers Authority (IANA).</t>
+              <t>In order for IANA to manage a given namespace prudently, it needs guidelines describing the conditions under which new values can be assigned or when modifications to existing values can be made.  If IANA is expected to play a role in the management of a namespace, IANA must be given clear and concise instructions describing that role.  This document discusses issues that should be considered in formulating a policy for assigning values to a namespace and provides guidelines for authors on the specific text that must be included in documents that place demands on IANA.</t>
+              <t>This document obsoletes RFC 2434.  This document specifies an Internet Best  Current Practices for the Internet Community, and requests discussion and  suggestions for improvements.</t>
+            </abstract>
+          </front>
+        </reference>
+        <!-- A reference written by by an organization not a person. -->
+
+     <reference anchor="DOMINATION" target="http://www.example.com/dominator.html">
+          <front>
+            <title>Ultimate Plan for Taking Over the World</title>
+            <author>
+              <organization>Mad Dominators, Inc.</organization>
+            </author>
+            <date year="1984"/>
+          </front>
+        </reference>
+      </references>
     </references>
-
-    <references title="Informative References">
-        <!-- A reference written by by an organization not a persoN. -->
-        <reference
-            anchor="DOMINATION" >
-            <front>
-                <title>Ultimate Plan for Taking Over the World</title>
-                <author>
-                    <organization>Mad Dominators, Inc.</organization>
-                </author>
-                <date year="1984" />
-            </front>
-        </reference>
-        &RFC4234;
-        &RFC2234;
-    </references>
-
-    <section anchor="app-additional" title="Additional stuff">
-        <t>You can add appendices just as regular sections, the only
-        difference is that they go within the "back" element, and not
-        within the "middle" element. And they follow the "reference"
-        elements.</t>
+    <section anchor="app-additional" numbered="true" toc="default">
+      <name>Additional Stuff</name>
+      <t>This becomes an Appendix.</t>
     </section>
-</back>
+    <!-- Change Log
 
+v00 2006-03-15  EBD   Initial version
+
+v01 2006-04-03  EBD   Moved PI location back to position 1 -
+                     v3.1 of XMLmind is better with them at this location.
+v02 2007-03-07  AH    removed extraneous nested_list attribute,
+                     other minor corrections
+v03 2007-03-09  EBD   Added comments on null IANA sections and fixed heading capitalization.
+                     Modified comments around figure to reflect non-implementation of
+                     figure indent control.  Put in reference using anchor="DOMINATION".
+                     Fixed up the date specification comments to reflect current truth.
+v04 2007-03-09 AH     Major changes: shortened discussion of PIs,
+                     added discussion of rfc include.
+v05 2007-03-10 EBD    Added preamble to C program example to tell about ABNF and alternative
+                     images. Removed meta-characters from comments (causes problems).
+
+v06 2010-04-01 TT     Changed ipr attribute values to latest ones. Changed date to
+                     year only, to be consistent with the comments. Updated the
+                     IANA guidelines reference from the I-D to the finished RFC.
+v07 2020-01-21 HL    Converted the template to use XML schema version 3.
+    -->
+ </back>
 </rfc>
