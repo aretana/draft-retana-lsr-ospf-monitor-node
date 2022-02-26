@@ -8,8 +8,8 @@
     please see http://xml.resource.org/authoring/README.html. -->
 <rfc
       xmlns:xi="http://www.w3.org/2001/XInclude"
-      category="info"
-      docName="draft-ietf-xml2rfc-template-06"
+      category="std"
+      docName="draft-retana-lsr-ospf-monitor-node"
       ipr="trust200902"
       obsoletes=""
       updates=""
@@ -33,31 +33,40 @@
     <!-- The abbreviated title is used in the page header - it is only necessary if the
         full title is longer than 39 characters -->
 
-   <title abbrev="Abbreviated Title">Put Your Internet Draft Title
-   Here</title>
-    <seriesInfo name="Internet-Draft" value="draft-ietf-xml2rfc-template-06"/>
+   <title abbrev="Abbreviated Title">OSPF Monitor Node</title>
+    <seriesInfo name="Internet-Draft" value="draft-retana-lsr-ospf-monitor-node"/>
     <!-- add 'role="editor"' below for the editors if appropriate -->
 
    <!-- Another author who claims to be an editor -->
 
-   <author fullname="Elwyn Davies" initials="E.B." role="editor" surname="Davies">
-      <organization>Folly Consulting</organization>
-      <address>
-        <postal>
-          <street/>
-          <!-- Reorder these if your country does things differently -->
-
-         <city>Soham</city>
-          <region/>
-          <code/>
-          <country>UK</country>
-        </postal>
-        <phone>+44 7889 488 335</phone>
-        <email>elwynd@dial.pipex.com</email>
-        <!-- uri and facsimile elements may also be added -->
+   <author initials="A" surname="Retana" fullname="Alvaro Retana">
+     <organization>Futurewei Technologies, Inc.</organization>
+     <address>
+       <postal>
+         <street>2330 Central Expressway</street>
+         <city>Santa Clara</city>
+         <region>CA</region>
+         <code>95050</code>
+         <country>USA</country>
+       </postal>
+      <email>aretana@futurewei.com</email>
      </address>
-    </author>
-    <date year="2010"/>
+   </author>
+
+   <author initials="L" surname="Han" fullname="Lin Han">
+  <organization>Futurewei Technologies, Inc.</organization>
+  <address>
+    <postal>
+      <street>2330 Central Expressway</street>
+      <city>Santa Clara</city>
+      <region>CA</region>
+      <code>95050</code>
+      <country>USA</country>
+    </postal>
+   <email>lin.han@futurewei.com</email>
+  </address>
+</author>
+    <date year="2022"/>
     <!-- If the month and year are both specified and are the current ones, xml2rfc will fill
         in the current day for you. If only the current year is specified, xml2rfc will fill
 	 in the current day and month for you. If the year is not the current one, it is
@@ -67,227 +76,234 @@
 
    <!-- Meta-data Declarations -->
 
-   <area>General</area>
-    <workgroup>Internet Engineering Task Force</workgroup>
+   <area>Routing</area>
+    <workgroup>Link State Routing</workgroup>
     <!-- WG name at the upperleft corner of the doc,
         IETF is fine for individual submissions.
 	 If this element is not present, the default is "Network Working Group",
         which is used by the RFC Editor as a nod to the history of the IETF. -->
 
-   <keyword>template</keyword>
+   <keyword>OSPF Monitor</keyword>
     <!-- Keywords will be incorporated into HTML output
         files in a meta tag but they have no effect on text or nroff
         output. If you submit your draft to the RFC Editor, the
         keywords will be used for the search engine. -->
 
    <abstract>
-      <t>Insert an abstract: MANDATORY. This template is for creating an
-     Internet Draft.</t>
+      <t>
+      This document specifies mechanisms that allow a node to monitor an OSPF
+      network actively without influencing the topology or affecting its
+      stability.
+      </t>
     </abstract>
   </front>
+
   <middle>
     <section numbered="true" toc="default">
       <name>Introduction</name>
-      <t>The original specification of xml2rfc format is in <xref target="RFC2629" format="default">RFC&nbsp;2629</xref>.</t>
+      <t>
+      Monitoring the control plane activity in a network is essential to
+      designing and maintaining a robust and stable network.  Passive (listen-
+      only) devices deployed in broadcast or non-broadcast multi-access (NBMA)
+      networks have typically satisfied the need.  However, passive devices
+      depend on more than two routers being present in the network and are not
+      visible to the network operator -- anyone can listen.
+      </t>
+      <t>
+      An alternative implementation, primarily used in point-to-point
+      interfaces, or in cases where the listening device is the only other node
+      on the interface, is to participate fully in the protocol: create a full
+      adjacency with the closest router, participate in designated router (DR)
+      election, etc.  The node is now visible in the network, can advertise
+      control plane information, and any changes in its status are flooded
+      throughout the network.  Many link state advertisements (LSA) or state
+      changes can cause instability in the network, and additional
+      configuration is usually needed to avoid the device becoming a transit
+      node.
+      </t>
+      <t>
+      This document specifies mechanisms that allow a node to monitor OSPF
+      activity without influencing the topology or affecting its stability
+      while being fully adjacent and known to the network operator.  These
+      nodes are referred to as a Monitor Node.  Two such mechanisms are
+      introduced:
+      </t>
+      <ul spacing="normal" empty="true">
+      <li>
+        <xref target="monitor_interface"/> describes a local implementation to
+        be used in the case where the Monitor Node is the only other router on
+        an interface.
+      </li>
+      <li>
+        <xref target="monitor_node"/> specifies signaling in the Hello message
+        for a node to communicate its intention to become a Monitor Node.
+      </li>
+      </ul>
+      <t>
+      The mechanisms presented apply to both OSPFv2 <xref target="RFC2328"/>
+      and OSPFv3 <xref target="RFC5340"/>.  The term OSPF is used to refer to
+      both versions.
+      </t>
+
       <section numbered="true" toc="default">
         <name>Requirements Language</name>
-        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-       document are to be interpreted as described in <xref target="RFC2119" format="default">RFC 2119</xref>.</t>
+        <t>
+        The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+        NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
+        "MAY", and "OPTIONAL" in this document are to be interpreted as
+        described in BCP 14
+        <xref target="RFC2119" format="default">RFC 2119</xref>
+        <xref target="RFC8174" format="default">RFC 8174</xref> when, and only
+        when, they appear in all capitals, as shown here.
+        </t>
       </section>
     </section>
-    <section anchor="simple_list" numbered="true" toc="default">
-      <name>Simple List</name>
-      <t>List styles: 'empty', 'symbols', 'letters', 'numbers', 'hanging',
-     'format'.</t>
-      <ul spacing="normal">
-        <li>First bullet</li>
-        <li>Second bullet</li>
-      </ul>
-      <t> You can write text here as well.</t>
-    </section>
-    <section numbered="true" toc="default">
-      <name>Figures</name>
-      <t>Figures should not exceed 69 characters wide to allow for the indent
-     of sections.</t>
-      <t>Preamble text - can be omitted or empty.</t>
-      <figure anchor="xml_happy">
-        <artwork align="left" name="" type="" alt=""><![CDATA[
-+-----------------------+
-| Use XML, be Happy :-) |
-|_______________________|
-           ]]></artwork>
-      </figure>
-      <t>Cross-references allowed in pre- and postamble. <xref target="min_ref" format="default"/>.</t>
-      <t>The CDATA means you don't need to escape meta-characters (especially
-     &lt;&nbsp;(&amp;lt;) and &amp;&nbsp;(&amp;amp;)) but is not essential.
-     Figures may also have a title attribute but it won't be displayed unless
-     there is also an anchor. White space, both horizontal and vertical, is
-     significant in figures even if you don't use CDATA.</t>
-    </section>
-    <!-- This PI places the pagebreak correctly (before the section title) in the text output. -->
 
-   <section numbered="true" toc="default">
-      <name>Subsections and Tables</name>
-      <section numbered="true" toc="default">
-        <name>A Subsection</name>
-        <t>By default 3 levels of nesting show in table of contents but that
-       can be adjusted with the value of the "tocdepth" processing
-       instruction.</t>
-      </section>
-      <section numbered="true" toc="default">
-        <name>Tables</name>
-        <t>.. are very similar to figures:</t>
-        <t>Tables use ttcol to define column headers and widths.
-         Every cell then has a "c" element for its content.</t>
-        <table anchor="table_example" align="center">
-          <name>A Very Simple Table</name>
-          <thead>
-            <tr>
-              <th align="center">ttcol #1</th>
-              <th align="center">ttcol #2</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td align="center">c #1</td>
-              <td align="center">c #2</td>
-            </tr>
-            <tr>
-              <td align="center">c #3</td>
-              <td align="center">c #4</td>
-            </tr>
-            <tr>
-              <td align="center">c #5</td>
-              <td align="center">c #6</td>
-            </tr>
-          </tbody>
-        </table>
-        <t>which is a very simple example.</t>
-      </section>
-    </section>
-    <section anchor="nested_lists" numbered="true" toc="default">
-      <name>More about Lists</name>
-      <t>Lists with 'hanging labels': the list item is indented the amount of
-     the hangIndent: </t>
+    <section anchor="interface_params" numbered="true" toc="default">
+      <name>Router Interface Parameters</name>
+      <t>
+      This document defines the following router interface configurable
+      parameters:
+      </t>
+
       <dl newline="true" spacing="normal" indent="8">
-        <dt>short</dt>
-        <dd>With a label shorter than the hangIndent.</dd>
-        <dt>fantastically long label</dt>
-        <dd>With a label longer than the
-         hangIndent.</dd>
-        <dt>vspace_trick</dt>
-        <dd>Forces the new
-         item to start on a new line.</dd>
+        <dt>DoNotAdvertiseLink</dt>
+        <dd>
+        Indicates whether or not the link is advertised on the local
+        router-LSA.  If set to "enabled," the router MUST NOT include a
+        corresponding interface description in its router-LSA.  The router MUST
+        NOT originate other LSAs related to the link or its addresses.
+        Enabling this interface parameter overrides the setting of
+        LinkLSASuppression <xref target="RFC5340"/>.
+        </dd>
+        <dt>DoNotRequestAndIgnoreLSAs</dt>
+        <dd>
+        Indicates whether or not the router should request and use LSAs from
+        other routers on this interface.  If set to "enabled," the router MUST
+        consider its Link state request list empty.  Also, the router MUST
+        consider the LS age of any received LSA to be equal to MaxAge and
+        process it according to Section 13 of <xref target="RFC2328"/>.
+        </dd>
       </dl>
-      <!-- It would be nice to see the next piece (12 lines) all on one page. -->
+    </section>
 
-     <t>Simulating more than one paragraph in a list item using
-     &lt;vspace&gt;: </t>
-      <ol spacing="normal" type="a">
-        <li>First, a short item.</li>
-        <li>
-          <t>Second, a longer list item.</t>
-          <t> And
-         something that looks like a separate pararaph..</t>
+
+    <section anchor="monitor_interface" numbered="true" toc="default">
+      <name>Monitoring Interface</name>
+      <t>
+      By using the interface parameters specified in
+      <xref target="interface_params"/>, a router can treat all neighbors on
+      the interface as Monitor Nodes.  To do so, DoNotAdvertiseLink and
+      DoNotRequestAndIgnoreLSAs SHOULD be configured simultaneously.  If either
+      parameter is configured on a broadcast or NBMA interface, the router MUST
+      NOT participate in the Designated Router (DR) selection process.
+      </t>
+      <t>
+      Enabling DoNotAdvertiseLink by itself results in any LSAs originated by
+      the Monitor Node not being resolved in the routing table.
+      </t>
+      <t>
+      If only DoNotRequestAndIgnoreLSAs is enabled, the router MUST treat the
+      link as a stub network.  Note that the neighbor information
+      (corresponding to the Monitor Node) is not advertised.
+      </t>
+    </section>
+
+    <section anchor="monitor_node" numbered="true" toc="default">
+      <name>The Monitor Node Option</name>
+      <t>
+      This document defines a new Option in the Extended Options and Flags
+      (EOF) Link-Local Signaling (LLS) TLV <xref target="RFC5613"/>.  The new
+      option is called Monitor (M-bit) and has a value of TBD.
+      </t>
+      <t>
+        When set, the M-bit indicates that the originating router is a Monitor
+        Node.  Other routers on the same link MUST:
+       </t>
+       <ul spacing="normal">
+         <li>
+        Consider the Monitor Node ineligible for the DR selection process.
         </li>
-      </ol>
-      <t>Simple indented paragraph using the "empty" style: </t>
-      <ul empty="true" spacing="normal">
-        <li>The quick, brown fox jumped over the lazy dog and lived to fool
-         many another hunter in the great wood in the west.</li>
-      </ul>
-      <section numbered="true" toc="default">
-        <name>Numbering Lists across Lists and Sections</name>
-        <t>Numbering items continuously although they are in separate
-       &lt;list&gt; elements, maybe in separate sections using the "format"
-       style and a "counter" variable.</t>
-        <t>First list: </t>
-        <ol group="reqs" spacing="normal" type="R%d">
-          <li>#1</li>
-          <li>#2</li>
-          <li>#3</li>
-        </ol>
-        <t> Specify the indent explicitly so that all the items line up
-       nicely.</t>
-        <t>Second list: </t>
-        <ol group="reqs" spacing="normal" type="R%d">
-          <li>#4</li>
-          <li>#5</li>
-          <li>#6</li>
-        </ol>
-      </section>
-      <section numbered="true" toc="default">
-        <name>Where the List Numbering Continues</name>
-        <t>List continues here.</t>
-        <t>Third list: </t>
-        <ol group="reqs" spacing="normal" type="R%d">
-          <li>#7</li>
-          <li>#8</li>
-          <li>#9</li>
-          <li>#10</li>
-        </ol>
-        <t> The end of the list.</t>
-      </section>
+        <li>
+        Consider its Link state request list empty with respect to the Monitor
+        Node.
+        </li>
+        <li>
+        Consider the LS age of any LSA received from the Monitor Node is equal
+        to MaxAge.
+        </li>
+       </ul>
+
+       <t>
+        If the Monitor Node is one of only two routers on an interface, the
+        other router MUST NOT include a corresponding interface description in
+        its router-LSA.  Furthermore, other LSAs related to the link or its
+        addresses MUST NOT be originated.  This situation overrides the setting
+        of LinkLSASuppression.
+       </t>
     </section>
-    <section anchor="codeExample" numbered="true" toc="default">
-      <name>Example of Code or MIB Module To Be Extracted</name>
-      <t>The &lt;artwork&gt; element has a number of extra attributes
-       that can be used to substitute a more aesthetically pleasing rendition
-       into HTML output while continuing to use the ASCII art version in the
-       text and nroff outputs (see the xml2rfc README for details). It also
-       has a "type" attribute. This is currently ignored except in the case
-       'type="abnf"'. In this case the "artwork" is expected to contain a
-       piece of valid Augmented Backus-Naur Format (ABNF) grammar. This will
-       be syntax checked by xml2rfc and any errors will cause a fatal error
-       if the "strict" processing instruction is set to "yes". The ABNF will
-       also be colorized in HTML output to highlight the syntactic
-       components. Checking of additional "types" may be provided in future
-       versions of xml2rfc.</t>
-      <artwork name="" type="" align="left" alt=""><![CDATA[
 
-/**** an example C program */
-
-#include <stdio.h>
-
-void
-main(int argc, char *argv[])
-{
-   int i;
-
-   printf("program arguments are:\n");
-   for (i = 0; i < argc; i++) {
-       printf("%d: \"%s\"\n", i, argv[i]);
-   }
-
-   exit(0);
-} /* main */
-
-/* end of file */
-
-           ]]></artwork>
+    <section anchor="operations" numbered="true" toc="default">
+      <name>Operational Considerations</name>
+      <t>
+      The use of the monitoring interface (<xref target="monitor_interface"/>)
+      applies to all other routers on the same interface.  While the Monitor
+      Node option (<xref target="monitor_node"/>) applies to only the router
+      signaling the M-bit.  Network administrators should use the Monitor Node
+      option in transit interfaces where one router is a Monitor Node.
+      </t>
+      <t>
+      If the Monitor Node is the only other router on an interface, the link
+      information can be advertised (as a stub link) if only
+      DoNotRequestAndIgnoreLSAs is enabled.
+      </t>
+      <t>
+      The deployment of the Monitoring Interface
+      (<xref target="monitor_interface"/>) requires that only the non-Monitor
+      Node supports this specification.  On the other hand, the Monitor Node
+      Option (<xref target="monitor_node"/>) requires all nodes on the
+      interface to support the functionality.  If support is not present in all
+      the routers on the link, the Monitor Node will be eligible to be a DR,
+      and its information may be flooded through the network.
+</t>
     </section>
+
     <section anchor="Acknowledgements" numbered="true" toc="default">
       <name>Acknowledgements</name>
-      <t>This template was derived from an initial version written by Pekka
-     Savola and contributed by him to the xml2rfc project.</t>
-      <t>This document is part of a plan to make xml2rfc indispensable <xref target="DOMINATION" format="default"/>.</t>
+      <t>TBD</t>
     </section>
     <!-- Possibly a 'Contributors' section ... -->
 
    <section anchor="IANA" numbered="true" toc="default">
       <name>IANA Considerations</name>
-      <t>This memo includes no request to IANA.</t>
-      <t>All drafts are required to have an IANA considerations section (see
-     <xref target="RFC5226" format="default">Guidelines for Writing an IANA Considerations Section in RFCs</xref> for a guide). If the draft does not require IANA to do
-     anything, the section contains an explicit statement that this is the
-     case (as above). If there are no requirements for IANA, the section will
-     be removed during conversion into an RFC by the RFC Editor.</t>
+      <t>
+      IANA is requested to allocate a value (TBD) from the "LLS Type 1 Extended
+      Options and Flags" registry for the M-bit (<xref target="monitor_node"/>).
+      </t>
+
     </section>
     <section anchor="Security" numbered="true" toc="default">
       <name>Security Considerations</name>
-      <t>All drafts are required to have a security considerations section.
-     See <xref target="RFC3552" format="default">RFC 3552</xref> for a guide.</t>
+      <t>
+      The security considerations documented in <xref target="RFC2328"/>,
+      <xref target="RFC5340"/>, and <xref target="RFC5613"/> apply to this
+      extension.
+      </t>
+      <t>
+      This document defines a new type of node, called a Monitor Node, intended
+      only to receive information from its neighbors and not send any.  If the
+      LSAs from the Monitor Node are not ignored, they will be flooded
+      throughout the network.  A rouge Monitor Node may advertise LSAs with an
+      Advertising Router field that doesn't correspond to its router ID.  This
+      type of vulnerability is not new, but it is already present in the base
+      specification.
+      </t>
+      <t>
+      Even though it is expected that the local network operator deploys any
+      Monitor Node, authentication mechanisms such as those specified in
+      <xref target="RFC5709"/>, <xref target="RFC7474"/>,
+      <xref target="RFC4552"/>, or <xref target="RFC7166"/> SHOULD be used.
+      </t>
     </section>
   </middle>
   <!--  *****BACK MATTER ***** -->
@@ -311,105 +327,23 @@ main(int argc, char *argv[])
       <references>
         <name>Normative References</name>
         <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
-     <reference anchor="RFC2119" target="https://www.rfc-editor.org/info/rfc2119" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
-          <front>
-            <title>Key words for use in RFCs to Indicate Requirement Levels</title>
-            <seriesInfo name="DOI" value="10.17487/RFC2119"/>
-            <seriesInfo name="RFC" value="2119"/>
-            <seriesInfo name="BCP" value="14"/>
-            <author initials="S." surname="Bradner" fullname="S. Bradner">
-              <organization/>
-            </author>
-            <date year="1997" month="March"/>
-            <abstract>
-              <t>In many standards track documents several words are used to signify the requirements in the specification.  These words are often capitalized. This document defines these words as they should be interpreted in IETF documents.  This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.</t>
-            </abstract>
-          </front>
-        </reference>
-        <reference anchor="min_ref">
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2328.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5340.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5613.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
           <!-- the following is the minimum to make xml2rfc happy -->
-
-       <front>
-            <title>Minimal Reference</title>
-            <author initials="authInitials" surname="authSurName">
-              <organization/>
-            </author>
-            <date year="2006"/>
-          </front>
-        </reference>
       </references>
+
       <references>
         <name>Informative References</name>
         <!-- Here we use entities that we defined at the beginning. -->
-
-     <reference anchor="RFC2629" target="https://www.rfc-editor.org/info/rfc2629" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2629.xml">
-          <front>
-            <title>Writing I-Ds and RFCs using XML</title>
-            <seriesInfo name="DOI" value="10.17487/RFC2629"/>
-            <seriesInfo name="RFC" value="2629"/>
-            <author initials="M." surname="Rose" fullname="M. Rose">
-              <organization/>
-            </author>
-            <date year="1999" month="June"/>
-            <abstract>
-              <t>This memo presents a technique for using XML (Extensible Markup Language) as a source format for documents in the Internet-Drafts (I-Ds) and Request for Comments (RFC) series.  This memo provides information for the Internet community.</t>
-            </abstract>
-          </front>
-        </reference>
-        <reference anchor="RFC3552" target="https://www.rfc-editor.org/info/rfc3552" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3552.xml">
-          <front>
-            <title>Guidelines for Writing RFC Text on Security Considerations</title>
-            <seriesInfo name="DOI" value="10.17487/RFC3552"/>
-            <seriesInfo name="RFC" value="3552"/>
-            <seriesInfo name="BCP" value="72"/>
-            <author initials="E." surname="Rescorla" fullname="E. Rescorla">
-              <organization/>
-            </author>
-            <author initials="B." surname="Korver" fullname="B. Korver">
-              <organization/>
-            </author>
-            <date year="2003" month="July"/>
-            <abstract>
-              <t>All RFCs are required to have a Security Considerations section. Historically, such sections have been relatively weak.  This document provides guidelines to RFC authors on how to write a good Security Considerations section.   This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.</t>
-            </abstract>
-          </front>
-        </reference>
-        <reference anchor="RFC5226" target="https://www.rfc-editor.org/info/rfc5226" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
-          <front>
-            <title>Guidelines for Writing an IANA Considerations Section in RFCs</title>
-            <seriesInfo name="DOI" value="10.17487/RFC5226"/>
-            <seriesInfo name="RFC" value="5226"/>
-            <author initials="T." surname="Narten" fullname="T. Narten">
-              <organization/>
-            </author>
-            <author initials="H." surname="Alvestrand" fullname="H. Alvestrand">
-              <organization/>
-            </author>
-            <date year="2008" month="May"/>
-            <abstract>
-              <t>Many protocols make use of identifiers consisting of constants and other well-known values.  Even after a protocol has been defined and deployment has begun, new values may need to be assigned (e.g., for a new option type in DHCP, or a new encryption or authentication transform for IPsec).  To ensure that such quantities have consistent values and interpretations across all implementations, their assignment must be administered by a central authority.  For IETF protocols, that role is provided by the Internet Assigned Numbers Authority (IANA).</t>
-              <t>In order for IANA to manage a given namespace prudently, it needs guidelines describing the conditions under which new values can be assigned or when modifications to existing values can be made.  If IANA is expected to play a role in the management of a namespace, IANA must be given clear and concise instructions describing that role.  This document discusses issues that should be considered in formulating a policy for assigning values to a namespace and provides guidelines for authors on the specific text that must be included in documents that place demands on IANA.</t>
-              <t>This document obsoletes RFC 2434.  This document specifies an Internet Best  Current Practices for the Internet Community, and requests discussion and  suggestions for improvements.</t>
-            </abstract>
-          </front>
-        </reference>
-        <!-- A reference written by by an organization not a person. -->
-
-     <reference anchor="DOMINATION" target="http://www.example.com/dominator.html">
-          <front>
-            <title>Ultimate Plan for Taking Over the World</title>
-            <author>
-              <organization>Mad Dominators, Inc.</organization>
-            </author>
-            <date year="1984"/>
-          </front>
-        </reference>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4552.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5709.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7166.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7474.xml"/>
       </references>
-    </references>
-    <section anchor="app-additional" numbered="true" toc="default">
-      <name>Additional Stuff</name>
-      <t>This becomes an Appendix.</t>
-    </section>
+  </references>
     <!-- Change Log
 
 v00 2006-03-15  EBD   Initial version
