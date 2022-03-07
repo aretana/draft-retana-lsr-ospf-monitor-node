@@ -19,6 +19,7 @@
       tocDepth="4"
       symRefs="true"
       sortRefs="true"
+      consensus="true"
       version="3">
   <!-- xml2rfc v2v3 conversion 2.38.1 -->
   <!-- category values: std, bcp, info, exp, and historic
